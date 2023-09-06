@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Base and Roman Numeral Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        background-image: url(https://images.pexels.com/photos/1127120/pexels-photo-1127120.jpeg?auto=compress&cs=tinysrgb&w=600);
+
+      }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"], select {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Number Base and Roman Numeral Converter</h1>
+        <label for="number">Enter Number:</label>
+        <input type="text" id="number" placeholder="Enter a number">
+        <label for="fromBase">From Base:</label>
+        <select id="fromBase">
+            <option value="2">Binary</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
+        <label for="toBase">To Base:</label>
+        <select id="toBase">
+            <option value="2">Binary</option>
+            <option value="8">Octal</option>
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+        </select>
+        <label for="conversionType">Conversion Type:</label>
+        <select id="conversionType">
+            <option value="numeric">Numeric</option>
+            <option value="roman">Roman Numerals</option>
+        </select>
+        <button onclick="convertNumber()">Convert</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convertNumber() {
+            const numberInput = document.getElementById("number").value;
+            const fromBase = parseInt(document.getElementById("fromBase").value, 10);
+            const toBase = parseInt(document.getElementById("toBase").value, 10);
+            const conversionType = document.getElementById("conversionType").value;
+
+            if (!isNaN(fromBase) && !isNaN(toBase)) {
+                try {
+                    const decimalValue = parseInt(numberInput, fromBase);
+
+                    let convertedValue;
+                    if (conversionType === "numeric") {
+                        convertedValue = decimalValue.toString(toBase);
+                    } else if (conversionType === "roman") {
+                        convertedValue = convertToRoman(decimalValue);
+                    }
+
+                    document.getElementById("result").textContent = `Converted Value: ${convertedValue}`;
+                } catch (error) {
+                    document.getElementById("result").textContent = "Invalid Input";
+                }
+            } else {
+                document.getElementById("result").textContent = "Invalid Base Selection";
+            }
+        }
+
+        // Function to convert decimal to Roman numerals
+        function convertToRoman(num) {
+            const romanNumerals = [
+                { value: 1000, numeral: "M" },
+                { value: 900, numeral: "CM" },
+                { value: 500, numeral: "D" },
+                { value: 400, numeral: "CD" },
+                { value: 100, numeral: "C" },
+                { value: 90, numeral: "XC" },
+                { value: 50, numeral: "L" },
+                { value: 40, numeral: "XL" },
+                { value: 10, numeral: "X" },
+                { value: 9, numeral: "IX" },
+                { value: 5, numeral: "V" },
+                { value: 4, numeral: "IV" },
+                { value: 1, numeral: "I" }
+            ];
+
+            let result = "";
+
+            for (const numeral of romanNumerals) {
+                while (num >= numeral.value) {
+                    result += numeral.numeral;
+                    num -= numeral.value;
+                }
+            }
+
+            return result;
+        }
+    </script>
+</body>
+</html>
